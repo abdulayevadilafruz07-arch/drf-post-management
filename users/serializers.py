@@ -77,6 +77,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 
+
 # ================== CHANGE PASSWORD ==================
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(write_only=True)

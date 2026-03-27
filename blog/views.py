@@ -1,15 +1,21 @@
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework import generics, filters, permissions
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from .models import LastViewedPost
+from .models import Comment
+from .models import Like
 from .models import Post
+from .models import Favorite
 from .serializers import PostSerializer
+from .serializers import FavoriteSerializer
+from .serializers import CommentSerializer
+from .serializers import LikeSerializer
 from .permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
-
-from .models import Favorite
-from .serializers import FavoriteSerializer
+from .permissions import IsCommentOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -35,22 +41,16 @@ class PostRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerOrReadOnly]
 
     def perform_destroy(self, instance):
-        # Soft delete
         instance.is_deleted = True
         instance.save()
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        # Increment view count
         instance.view_count += 1
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-
-from .models import Comment
-from .serializers import CommentSerializer
-from .permissions import IsCommentOwnerOrReadOnly
 
 class CommentListCreateView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
@@ -95,7 +95,7 @@ class FavoriteListView(generics.ListAPIView):
         return Favorite.objects.filter(user=self.request.user)
 
 
-from .models import LastViewedPost
+
 
 class LastViewedPostListView(generics.ListAPIView):
     serializer_class = PostSerializer
@@ -104,16 +104,16 @@ class LastViewedPostListView(generics.ListAPIView):
     def get_queryset(self):
         return Post.objects.filter(
             lastviewedpost__user=self.request.user
-        )[:10]  # Maksimal 10 ta
+        )[:10]
 
 
 def retrieve(self, request, *args, **kwargs):
     instance = self.get_object()
-    # Increment view count
+
     instance.view_count += 1
     instance.save()
 
-    # Save last viewed
+
     if request.user.is_authenticated:
         from .models import LastViewedPost
         LastViewedPost.objects.update_or_create(
@@ -125,16 +125,6 @@ def retrieve(self, request, *args, **kwargs):
     return Response(serializer.data)
 
 
-
-
-
-from .models import Like
-from .serializers import LikeSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from rest_framework import status
 
 class LikeDislikeToggleView(APIView):
     permission_classes = [IsAuthenticated]
@@ -161,3 +151,4 @@ class LikeListView(generics.ListAPIView):
 
     def get_queryset(self):
         return Like.objects.filter(user=self.request.user)
+

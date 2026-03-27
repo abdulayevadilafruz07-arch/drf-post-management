@@ -10,7 +10,7 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
-    is_deleted = models.BooleanField(default=False)  # Soft delete
+    is_deleted = models.BooleanField(default=False)
     view_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):

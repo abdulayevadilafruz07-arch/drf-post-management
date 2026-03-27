@@ -106,6 +106,22 @@ class UserUpdateView(UpdateAPIView):
     def get_object(self):
         return self.request.user
 
+    def update(self, request, *args, **kwargs):
+
+        serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        # javob qaytarish
+        return Response(
+            {
+                "status": status.HTTP_200_OK,
+                "message": "Malumot muvaffaqiyatli tahrirlandi",
+                "user": serializer.data
+            },
+            status=status.HTTP_200_OK
+        )
+
 
 # ================== CHANGE PASSWORD ==================
 class ChangePasswordView(UpdateAPIView):
@@ -114,3 +130,18 @@ class ChangePasswordView(UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+
+        serializer.update(self.get_object(), serializer.validated_data)
+
+        return Response(
+            {
+                "status": status.HTTP_200_OK,
+                "message": "Parol muvaffaqiyatli o‘zgartirildi"
+            },
+            status=status.HTTP_200_OK
+        )

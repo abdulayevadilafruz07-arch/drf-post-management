@@ -8,5 +8,6 @@ class CustomUser(AbstractUser):
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
+
     def __str__(self):
         return self.username

@@ -11,6 +11,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         return obj.author == request.user
 
 
+
 class IsCommentOwnerOrReadOnly(permissions.BasePermission):
     """
     Faqat comment egasi tahrirlashi va o'chirishi mumkin.

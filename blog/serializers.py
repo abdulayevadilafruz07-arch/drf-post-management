@@ -20,6 +20,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'post', 'author', 'content', 'created_at', 'updated_at']
 
 
+
 class FavoriteSerializer(serializers.ModelSerializer):
     post = PostSerializer(read_only=True)
 
