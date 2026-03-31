@@ -12,12 +12,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = 'django-insecure-1cp5@@&q-*cvqm9(c-nplda%f%hjqi*x^9g4#f^&n97ga%d(@6'
 
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-# .env faylidagi o'zgaruvchilarni yuklash
-load_dotenv()
-secret_key = os.getenv('SECRET_KEY')
+# .env faylini aniq ko'rsatish
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
