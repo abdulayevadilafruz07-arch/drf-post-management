@@ -1,2 +1,48 @@
-venv
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+# It is a common practice to name the environment 'venv' or '.venv'
+venv/
+.venv/
+
+# Local database file (if using SQLite)
+# Replace 'db.sqlite3' with your actual database filename if different
+db.sqlite3
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.installed.cfg
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+*.egg
+
+# IDE-specific files (e.g., PyCharm, VS Code)
 .idea
+.vscode/ # VS Code settings (optional, only ignore personal settings)
+
+# Operating System files
+.DS_Store # macOS files
+.AppleDouble
+.LSOverride
+
+# Media and static files that are generated or collected, not source-controlled
+# Use caution if these should be in your repo (e.g., if using a CDN or deployment script)
+# media/
+# staticfiles/
+
+# Secret keys and environment variables
+.env
+*.env
+local_settings.py # If you separate local settings from production settings
+
